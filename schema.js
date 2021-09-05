@@ -6,8 +6,7 @@ const typeDefs = gql`
 
     type BlogFeed {
         blogs: [Blog]!
-        cursor: String!
-        hasNextPage: Boolean!
+        page: Int!
     }
 
     type User {
@@ -15,8 +14,8 @@ const typeDefs = gql`
         username: String!
         email: String!
         avatar: String!
-        blogs: [Blog]!
-        favorites: [Blog!]!
+        blogFeed(page: Int): BlogFeed!
+        favorites(page: Int): BlogFeed!
     }
 
     type Blog {
@@ -31,17 +30,20 @@ const typeDefs = gql`
 
     type Query {
         blogs: [Blog]
-        getBlog(id: ID!): Blog
+        getBlog(id: ID!): Blog!
+        user(username: String!): User!
+        users: [User!]!
+        me: User!
+        blogFeed(page: Int): BlogFeed!
+    }
+
+    type Mutation {
+        toggleFavorite(id: ID!): Blog!
         postBlog(content: String!): Blog!
         updateBlog(id: ID!, content: String!): Blog!
         deleteBlog(id: ID!): Boolean!
         signUp(username: String!, email: String!, password: String!): String!
         signIn(username: String, email: String, password: String!): String!
-        user(username: String!): User
-        users: [User!]!
-        me: User!
-        toggleFavorite(id: ID!): Blog!
-        blogFeed(cursor: String): BlogFeed
     }
 `
 
